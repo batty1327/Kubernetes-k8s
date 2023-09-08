@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: awspv
+   labels:
+     type: awspv
+spec:
+   capacity:
+     storage: 20Gi
+   accessModes:
+     - ReadWriteOnce
+   persistentVolumeReclaimPolicy: Retain
+   nfs:
+     server: fs-06e3ca0baa2c72b5f.efs.ap-south-1.amazonaws.com
+     path: /test

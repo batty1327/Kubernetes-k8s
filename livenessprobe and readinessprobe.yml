@@ -1,0 +1,77 @@
+# livenessProbe and readinessProbe are used with various probe types to monitor 
+# the health and readiness of containers in Kubernetes Pods.
+# healthy (livenessProbe) or ready (readinessProbe)
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+     name: myngpod
+spec:
+  replicas: 5
+  selector:
+      matchLabels:
+        app: development
+  template:
+    metadata:
+       labels:
+         app: development
+    spec:
+     containers:
+           - image: nginx
+             name: ngcontainer
+             ports:
+               - containerPort: 80
+             livenessProbe:
+                   httpGet:
+                     path: /index1.html
+                     port: 80
+                   initialDelaySeconds: 10
+             readinessProbe:
+                  exec:
+                    command:
+                       - ls
+                       - /usr/share/nginx/html
+
+
+
+# livenessProbe:
+#   httpGet:
+#     path: /healthz
+#     port: 8080
+#   initialDelaySeconds: 10      Kubernetes will wait for 10 seconds after the container starts
+#   periodSeconds: 30            the probe will be executed every 30 seconds to check the health or readiness of the container
+
+# livenessProbe:
+#   tcpSocket:
+#     port: 8080
+#   initialDelaySeconds: 15
+#   periodSeconds: 20
+
+# livenessProbe:
+#   exec:
+#     command:
+#     - cat
+#     - /tmp/healthy
+#   initialDelaySeconds: 5
+#   periodSeconds: 10
+
+# readinessProbe:
+#   httpGet:
+#     path: /readyz
+#     port: 8080
+#   initialDelaySeconds: 5
+#   periodSeconds: 10
+
+# readinessProbe:
+#   tcpSocket:
+#     port: 3306
+#   initialDelaySeconds: 10
+#   periodSeconds: 15
+
+# readinessProbe:
+#   exec:
+#     command:
+#     - check.sh
+#     - --ready
+#   initialDelaySeconds: 8
+#   periodSeconds: 12

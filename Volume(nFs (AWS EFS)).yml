@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+   name: nfswalapod
+spec:
+   containers:
+      - image: nginx
+        name: ngcontainer
+        volumeMounts:
+              - name: nfs
+                mountPath: /usr/share/nginx/html
+   volumes:
+    - name: nfs
+      nfs:
+        server: "fs-06e3ca0baa2c72b5f.efs.ap-south-1.amazonaws.com"
+        path: /test
